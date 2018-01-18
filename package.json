@@ -1,0 +1,24 @@
+{
+  "name": "openshift",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WolverineX1990/openshift.git"
+  },
+  "author": "zcj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WolverineX1990/openshift/issues"
+  },
+  "homepage": "https://github.com/WolverineX1990/openshift#readme"
+}
