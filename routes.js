@@ -3,16 +3,17 @@ const api = require('./src/api');
 function routes(request, response) {	
 	let method = request.pathname.replace('/api/', '');
 	let promise;
+	let params = request.params;
 
 	switch (method) {
 		case 'eqx':
-			promise = api.copyEqx('');
+			// promise = api.copyEqx(params.url);
 			break;
 		case 'maka':
-			promise = api.copyEqx('');
+			// promise = api.copyMaka(params.url);
 			break;
 		case 'rabbit':
-			promise = api.copyEqx('');
+			// promise = api.copyRabbit(params.url);
 			break;
 		default:
 			break;
@@ -22,13 +23,21 @@ function routes(request, response) {
 	// process.then(result, fail);
 
 	function result() {
-		response.writeHead(200, {'Content-Type': 'text/plain'});
-    	response.end('Hello World\n');
+		response.writeHead(200, {'Content-Type': 'application/json'});
+		var json = {
+			success: true,
+			msg: ''
+		};
+    	response.end(JSON.stringify(json));
 	}
 
 	function fail(err) {
-		response.writeHead(200, {'Content-Type': 'text/plain'});
-    	response.end('faild\n');
+		response.writeHead(500, {'Content-Type': 'application/json'});
+    	var json = {
+			success: false,
+			msg: '失败'
+		};
+    	response.end(JSON.stringify(json));
 	}
 }
 

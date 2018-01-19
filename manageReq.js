@@ -16,7 +16,7 @@ function manageReq(req, res, callback) {
 		// request.params = 
 		callback(request, res);
 	} else if(req.method == 'POST') {
-		let data;
+		let data = '';
 	    req.on('data', function (chunk) {
 	        // chunk 默认是一个二进制数据，和 data 拼接会自动 toString
 	        data += chunk;
