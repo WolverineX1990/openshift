@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/WolverineX1990/openshift/issues"
   },
-  "homepage": "https://github.com/WolverineX1990/openshift#readme"
+  "homepage": "https://github.com/WolverineX1990/openshift#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2"
+  }
 }
