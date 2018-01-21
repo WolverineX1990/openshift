@@ -96,7 +96,6 @@ class Scene {
 
 	copy(pages) {
 		var page = pages.shift();
-		console.log('page:' + pages.length);
 		if(page) {
 			return this.copyPage(page).then(res=> this.copy(pages));	
 		} else {
@@ -116,6 +115,15 @@ class Scene {
 				return this.savePage(this.currentPage);
 			});
 		}
+	}
+
+	transfer(account) {
+		console.log(1)
+		var promise = new Promise(function(resolve, reject) {
+			resolve();
+		});
+
+		return promise;
 	}
 
 	/**

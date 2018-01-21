@@ -12,7 +12,6 @@ module.exports = {
 
 var http = require('http');
 var URL = require('url');
-var cheerio = require('cheerio');
 
 function getHtml(targetUrl) {
 	var promise = new Promise(function(resolve, reject){
@@ -27,7 +26,6 @@ function getHtml(targetUrl) {
 	    var req = http.get(options, function (response) {
 		    response.setEncoding('utf-8');  //二进制binary
             var data = '';
-            // console.log(response.statusCode);
 		    response.on('data', function (res) {    //加载到内存
 		        data += res;
 		    }).on('end', function () {
@@ -43,19 +41,13 @@ function getHtml(targetUrl) {
 
 function getPageData(html, dataReg) {
 	var promise = new Promise(function(resolve, reject) {
-		var $ = cheerio.load(html);
-		var context;
-		$('script').each(function(index, script) {
-			context = $(script).html();
-			if(dataReg.test(context)) {
-				var res = '{' + context.match(dataReg)[1];
-				resolve(res);
-				return false;
-			}
-		});
-		if(!context) {
-			reject('not found');	
-		}
+        if(dataReg.test(html)) {
+            var res = '{' + html.match(dataReg)[1];
+            res = res.split(';')[0];
+            resolve(res);
+        } else {
+            reject('not found');
+        }
 	});
 
 	return promise;

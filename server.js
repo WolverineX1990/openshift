@@ -12,9 +12,10 @@ app = http.createServer(function (request, response) {
       manageReq(request, response, routes);
     } else {
       response.writeHead(200, {'Content-Type': 'text/plain'});
-      response.end('Hello World\n');
+      response.end('test api');
     }
 }).listen(port);
 
+console.log('server start');
 
 module.exports = app;

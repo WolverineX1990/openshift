@@ -5,7 +5,6 @@ var URL = require('url');
 var sign = require('./sign');
 var crypto = utils.crypto;
 var fileHost = 'http://res3.maka.im/';
-var cheerio = require('cheerio');
 
 /**
  * MAKA场景
