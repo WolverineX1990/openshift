@@ -58,6 +58,7 @@ function get(params, config) {
 		});
 	} catch(err) {
 		console.error(err);
+		reject(err);
 	}
 	return promise;
 }

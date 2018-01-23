@@ -18,11 +18,11 @@ function copyEqx(url, toAccount) {
 	return oriScene.loadData().then(res=>eqxUser.login().then(loginSuccess));
 
 	function loginSuccess() {
+		let scene;
 		sceneService.setHeaders({Origin: eqxConfig.eqxOrigin, cookie: eqxUser.cookie});
-		return sceneService.createScene().then(res=> JSON.parse(res).obj)
-						.then(sceneId=>sceneService.getSceneDetail(sceneId))
-						.then(res1 => {
-							let json = JSON.parse(res1).obj;
+		return sceneService.createScene().then(res=>sceneService.getSceneDetail(res.obj))
+						.then(res => {
+							let json = res.obj;
 							let originData = oriScene.data;
 							json.bgAudio = JSON.stringify(originData.bgAudio);
 							json.property = JSON.stringify(originData.property);
@@ -30,7 +30,7 @@ function copyEqx(url, toAccount) {
 							json.cover = originData.cover;
 							json.description = originData.description;
 							json.pageMode = originData.pageMode;
-							let scene = new Scene(json);
+							scene = new Scene(json);
 							scene.user = eqxUser;
 						 	return scene.copy(oriScene.pages);
 						})

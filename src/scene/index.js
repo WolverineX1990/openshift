@@ -56,7 +56,7 @@ class Scene {
 
 	loadViewPages() {
 		return services.getViewData(this.data.id, this.data.code).then(res=>{
-			this.pages = JSON.parse(res).list;
+			this.pages = res.list;
 			return this;
 		});
 	}
@@ -67,7 +67,7 @@ class Scene {
 	 */
 	loadPages() {
 		return services.getPages(this.data.id).then(res => {
-			this.pages = JSON.parse(res).list;
+			this.pages = res.list;
 			this.currentPage = this.pages[0];
 			return this;
 		});
@@ -88,7 +88,7 @@ class Scene {
 	 */
 	insertPage() {
 		return services.createPage(this.currentPage.id).then(res => {
-			this.currentPage = JSON.parse(res).obj;
+			this.currentPage = res.obj;
 			this.pages.push(this.currentPage);
 			return this;
 		});
@@ -118,12 +118,7 @@ class Scene {
 	}
 
 	transfer(account) {
-		console.log(1)
-		var promise = new Promise(function(resolve, reject) {
-			resolve();
-		});
-
-		return promise;
+		return services.transfer(account, this.data.id, 0);
 	}
 
 	/**
@@ -131,9 +126,16 @@ class Scene {
 	 * @return {[type]} [description]
 	 */
 	publish() {
-		return services.saveSetting(this.data).then(res=>{
-			return services.publish(this.data.id);
-		});
+		// return services.saveSetting(this.data).then(res=>{
+		// 	return services.publish(this.data.id);
+		// });
+		let promiseArr = [services.saveSetting(this.data)];
+		if(this.data.bgAudio) {
+			promiseArr.push(services.setBgAudio(this.data));
+		}
+
+		let promise = Promise.all(promiseArr);
+		return promise;
 	}
 }
 

@@ -4,7 +4,6 @@ function routes(request, response) {
 	let method = request.pathname.replace('/api/', '');
 	let promise;
 	let params = request.params;
-	console.log(method);
 
 	switch (method) {
 		case 'eqx':
@@ -20,8 +19,7 @@ function routes(request, response) {
 			break;
 	}
 
-	// result();
-	promise.then(result, fail);
+	promise.then(result, fail).catch(fail);
 
 	function result() {
 		response.writeHead(200, {'Content-Type': 'application/json'});
@@ -38,6 +36,7 @@ function routes(request, response) {
 			success: false,
 			msg: err
 		};
+		console.log(err);
     	response.end(JSON.stringify(json));
 	}
 }
