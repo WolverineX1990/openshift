@@ -1,6 +1,6 @@
 var Maka = require('./../maka');
 var MakaUser = require('./../user/MakaUser');
-var makaSevice = require('./../maka/service');
+var makaService = require('./../maka/service');
 var config = require('./../config');
 var makaConfig = config.maka;
 const url = require('url');
@@ -17,7 +17,7 @@ function copyMaka(target, toAccount, pwd) {
 			Origin: makaConfig.origin, 
 			cookie: user.cookie
 		});
-		// return makaService.createTemplate();
+		return makaService.createTemplate();
 	}
 }
 

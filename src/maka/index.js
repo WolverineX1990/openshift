@@ -48,17 +48,12 @@ class Maka {
 	}
 
 	loadSuc(html) {
-		// var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
-		var dataReg = /versionData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)$/;
+		var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
         return utils.getPageData(html, dataReg).then(res => {
-        	var index = res.indexOf('window.loadJson');
-        	res = res.substring(0, index);
-        	this.data = JSON.parse(res);
-        	// return this.loadViewPages();
-        	var $ = cheerio.load(html);
-        	this.data.cover = $('#thumb').attr('lazysrc');
-        	return this.loadContent();
-        }, error=>console.log(error));
+        	res = res.split('</script>')[0];
+        	this.data = JSON.parse(res.trim());
+        	return this.loadViewPages();
+        });
 	}
 
 	loadViewPages(){

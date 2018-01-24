@@ -64,7 +64,6 @@ function saveTemplate(code, data) {
 
 function getViewData(uid, id, version) {
 	// var url = 'http://res.maka.im/user/'+ uid +'/template/'+ id +'/'+ id +'_v'+ version +'.json';
-	var url = `http://res.maka.im/user/${uid}/event/${id}/${id}_v${version}.json`;
-	// console.log(url)
+	var url = `http://res.maka.im/user/${uid}/template/${id}/${id}_v${version}.json`;
 	return request.get({url: url});
 }
