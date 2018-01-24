@@ -4,16 +4,20 @@ function routes(request, response) {
 	let method = request.pathname.replace('/api/', '');
 	let promise;
 	let params = request.params;
+	if(!params) {
+		fail('没有参数！')
+		return;
+	}
 
 	switch (method) {
 		case 'eqx':
 			promise = api.copyEqx(params.url, params.toAccount);
 			break;
 		case 'maka':
-			promise = api.copyMaka(params.url);
+			promise = api.copyMaka(params.url, params.toAccount, params.pwd);
 			break;
 		case 'rabbit':
-			promise = api.copyRabbit(params.url);
+			promise = api.copyRabbit(params.url, params.toAccount, params.pwd);
 			break;
 		default:
 			break;

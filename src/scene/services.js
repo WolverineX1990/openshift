@@ -35,7 +35,7 @@ request.post = function(...params) {
 				if(json.success) {
 					return json;
 				} else {
-					console.log(json);
+					console.log(...params);
 					throw json;
 				}
 			});

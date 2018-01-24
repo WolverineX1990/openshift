@@ -31,12 +31,13 @@ class Rabbit {
 	        var reg = /Moved Temporarily. Redirecting to[\s]*([\w|\s|\W]+)/;
 	        return utils.getHtml(res.match(reg)[1]).then(res=>this.loadSuc(res));
 	    } else {
-	    	var dataReg = /var[\s|\w]*pageData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
+	    	var dataReg = /var[\s|\w]*pageData[\s|\w]*=([\W|\w]+)/;
 	        return utils.getPageData(res, dataReg).then(res => {
+				res = utils.base64.decode(res.split('"')[1]);
 	        	this.data = JSON.parse(res);
 	        	this.pages = this.data.pages;
 	        	return res;
-	        }, error=>console.log(error));
+	        });
 	    }
 	}
 

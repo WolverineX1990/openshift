@@ -1,13 +1,17 @@
 'use strict';
 var crypto = require('./crypto');
+let extend = require('./extend');
+let base64 = require('./base64');
+
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
 	each: each,
-	getResource: getResource,
 	crypto: crypto,
 	randomStr: randomStr,
-	toInt: toInt
+	toInt: toInt,
+	extend,
+	base64
 };
 
 var http = require('http');
@@ -40,10 +44,19 @@ function getHtml(targetUrl) {
 }
 
 function getPageData(html, dataReg) {
-	var promise = new Promise(function(resolve, reject) {
-        if(dataReg.test(html)) {
-            var res = '{' + html.match(dataReg)[1];
-            res = res.split(';')[0];
+	let promise = new Promise(function(resolve, reject) {
+        let scripts = html.split('<script>');
+		let isContains = false;
+		let res;
+        scripts.forEach(function(context, index) {
+			if(dataReg.test(context)) {
+                res = '{' + context.match(dataReg)[1];
+                isContains = true;
+				return false;
+			}
+        });
+        
+        if(isContains) {
             resolve(res);
         } else {
             reject('not found');
@@ -51,38 +64,6 @@ function getPageData(html, dataReg) {
 	});
 
 	return promise;
-}
-
-/**
- * [getBase64 获取文件的base64数据]
- * @param  {[type]} url [description]
- * @return {[type]}        [description]
- */
-function getResource(url) {
-    var param = URL.parse(url);
-    var promise = new Promise(function(resolve, reject){
-        var options = {
-            host: param.host,
-            path: param.path,
-            headers: {
-                'Referer': 'http://h5.eqxiu.com/s/kBKEChRH',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
-            }
-        };
-        var req = http.get(options, function (response) {
-            response.setEncoding('binary');
-            var data = '';
-            response.on('data', function (res) {    //加载到内存
-                data += res;
-            }).on('end', function () {
-                resolve(data);
-            });
-        });
-        req.on('error', function(err) {
-            reject(err);
-        });
-    });
-    return promise;
 }
 
 function each(object, iterFunction) {

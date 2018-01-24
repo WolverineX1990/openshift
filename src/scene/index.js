@@ -49,6 +49,7 @@ class Scene {
 	loadSuc(res) {
 		var dataReg = /var[\s|\w]*scene[\s|\w]*=[\s|\w]*{([\s|\w|\W]+);/;
         return utils.getPageData(res, dataReg).then(res => {
+			res = res.split(';')[0];
         	this.data = eval("("+res+")");
         	return this.loadViewPages();
         }, error=>console.log(error));
