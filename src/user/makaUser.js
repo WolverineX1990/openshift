@@ -6,7 +6,7 @@ class MakaUser {
 	constructor(name, pwd) {
 		this.name = name;
 		this.pwd = pwd;
-		this.url = config.severHost + 'designer/login';
+		this.url = config.severHost + 'v1/sessions';
 	}
 
 	/**
@@ -15,8 +15,9 @@ class MakaUser {
 	 */
 	login() {
 		var postData = querystring.stringify({
-			email: this.name,
-			password: this.pwd
+			username: this.name,
+			password: this.pwd,
+			type: 'form'
 		});
 		var that = this;
 		var promise = new Promise(function(resolve, reject){
@@ -29,9 +30,19 @@ class MakaUser {
 			}, {
 				getCookie: true
 			}).then(function(res) {
-				that.cookie = res.cookie;
-				that.info = JSON.parse(res.data).data;
-				resolve(that.info);
+				that.cookie = [];
+				for(let i =0; i< res.cookie.length; i++) {
+					if(res.cookie[i].indexOf('delete') == -1) {
+						that.cookie.push(res.cookie[i]);
+					}
+				}
+				let result = JSON.parse(res.data);
+				if(result.code != 200) {
+					reject(result);
+				} else {
+					that.info = result.data;
+					resolve(that.info);
+				}
 			}, function(err) {
 				reject(err);
 			});

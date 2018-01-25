@@ -1,9 +1,14 @@
+'use strict';
+
 module.exports = {
-	createTemplate: createTemplate,
-	setHeaders: setHeaders,
-	getTemplate: getTemplate,
-	saveTemplate: saveTemplate,
-	getViewData: getViewData
+	createTemplate,
+	setHeaders,
+	getTemplate,
+	saveTemplate,
+	getViewData,
+	getPages,
+	upload,
+	getOssSts2
 };
 
 var http = require('http');
@@ -11,6 +16,7 @@ var querystring= require('querystring');
 var request = require('./../request');
 var config = require('./../config').maka;
 var serverHost = config.severHost;
+var host = config.origin;
 
 var _headers;
 
@@ -27,8 +33,8 @@ function setHeaders(headers) {
  * @return {[type]} [description]
  */
 function createTemplate() {
-	return request.post({
-		url: serverHost + 'template',
+	return request.get({
+		url: host + '/h5editor/choose?source=maka',
 		headers: _headers,
 		data: ''
 	});
@@ -53,8 +59,9 @@ function getTemplate(code) {
  * @param  {[type]} version [description]
  * @return {[type]}         [description]
  */
-function saveTemplate(code, data) {
-	var url = serverHost + 'v4/template/' + code;
+function saveTemplate(uid, code, data) {
+	// http://maka.im/api/v1/users/4132367/events/5ZAHOPP9
+	var url = `${serverHost}v1/users/${uid}/events/${code}`;
 	return request.put({
 		url: url,
 		headers: _headers,
@@ -62,8 +69,38 @@ function saveTemplate(code, data) {
 	});
 }
 
+/**
+ * [getOssSts2 获取阿里云token]
+ * @param  {[type]} userToken [description]
+ * @return {[type]}           [description]
+ */
+function getOssSts2(userToken) {
+	var url = serverHost + 'ossSts2?token=' + userToken;
+	return request.get({
+		url: url,
+		headers: _headers
+	});
+}
+
+/**
+ * [upload 上传]
+ * @param  {[type]} userToken [description]
+ * @return {[type]}           [description]
+ */
+function upload(path, data, headers) {
+	return request.put({
+		url: path,
+		headers: headers,
+		data: data
+	});
+}
+
 function getViewData(uid, id, version) {
 	// var url = 'http://res.maka.im/user/'+ uid +'/template/'+ id +'/'+ id +'_v'+ version +'.json';
 	var url = `http://res.maka.im/user/${uid}/template/${id}/${id}_v${version}.json`;
+	return request.get({url: url});
+}
+
+function getPages(url) {
 	return request.get({url: url});
 }
