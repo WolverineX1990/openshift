@@ -35,6 +35,7 @@ function copyRabSpa(target, toAccount, pwd) {
 						json.in = oriData.in;
 						json.imgurl_path = oriData.imgurl_path;
 						json.imgurl = oriData.imgurl;
+						json.height = oriData.height;
 						var poster = new Poster(json);
 						return poster.copy(oriData.pages);
 					});
