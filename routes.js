@@ -19,17 +19,19 @@ function routes(request, response) {
 		case 'rabbit':
 			promise = api.copyRabbit(params.url, params.toAccount, params.pwd);
 			break;
+		case 'copyRabPoster':
+			promise = api.copyRabPoster(params.url, params.toAccount, params.pwd);
 		default:
 			break;
 	}
 
 	promise.then(result, fail).catch(fail);
 
-	function result() {
+	function result(res) {
 		response.writeHead(200, {'Content-Type': 'application/json'});
 		var json = {
 			success: true,
-			msg: ''
+			msg: res
 		};
     	response.end(JSON.stringify(json));
 	}
