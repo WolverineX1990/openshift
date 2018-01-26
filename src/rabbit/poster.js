@@ -52,10 +52,11 @@ class Poster {
 	copy(pages) {
 		let copyPage = pages[0];
 		let json = {
-			"bgcol": copyPage.bgcol,
-			"bgimage": copyPage.bgimage,
-			"col": copyPage.col,
-			"cmps": JSON.stringify(copyPage.cmps)
+			bgcol: copyPage.bgcol,
+			bgimage: copyPage.bgimage,
+			height: copyPage.col,
+			col: this.data.pages[0].col,
+			cmps: JSON.stringify(copyPage.cmps)
 		};
 
 		this.data.pages = [json];
