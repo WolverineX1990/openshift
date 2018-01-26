@@ -85,12 +85,11 @@ class Maka {
 			var code = this.data.id;
 			var string = JSON.stringify(this.jsonData);
 			var binary = new Buffer(string, 'utf8');
-			var path = '/' + this.ossSts2.uploadPath +'template/' + code + '/' + code + '_v1.json';
+			var path = '/' + this.ossSts2.uploadPath +'/event/' + code + '/' + code + '_v2.json';
 			var resource = '/' + this.ossSts2.bucket + path;
-			var header = getOssHeader(this.ossSts2, binary, resource, 'text/json');
-			// var param = URL.parse(this.ossSts2.hostId);
-			// var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-			var url = this.data.json_url;
+			var header = getOssHeader(this.ossSts2, binary, resource);
+			var param = URL.parse(this.ossSts2.hostId);
+			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
 			return service.upload(url, binary, header).then(res=> service.saveTemplate(this.data.uid, code, {
 				version: 2,
 				p_version: 2,
@@ -101,7 +100,7 @@ class Maka {
 			}));
 
 		} else {
-			return service.getOssSts2(this.user.info.token).then(res=>{
+			return service.getOssStss(this.user.info.uid, this.user.info.token).then(res=>{
 				this.ossSts2 = JSON.parse(res).data;
 				return this.save();
 			});
@@ -162,20 +161,22 @@ class Maka {
 	}
 }
 
-function getOssHeader(token, data, resource, contentType) {
+function getOssHeader(token, data, resource) {
 	var credentials = token.token.Credentials;
 	var ContentMD5 = crypto.md5(data, 'base64');
 	var header = {
-		'method': 'PUT',
+		method: 'PUT',
 		'Content-MD5': ContentMD5,
-		'Content-Type': contentType,
+		'Content-Type': 'text/json',
 		'x-oss-date': (new Date()).toUTCString(),
 		'x-oss-security-token': credentials.SecurityToken,
 		'x-sdk-client': ''
-	};
+	}
+
 	var signature = sign(credentials, header, resource);
 	var auth = 'OSS ' + credentials.AccessKeyId + ':' + signature;
 	header.Authorization = auth;
+
 	return header;
 }
 

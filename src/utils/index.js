@@ -6,10 +6,7 @@ let base64 = require('./base64');
 module.exports = {
 	getHtml: getHtml,
 	getPageData: getPageData,
-	each: each,
 	crypto: crypto,
-	randomStr: randomStr,
-	toInt: toInt,
 	extend,
 	base64
 };
@@ -64,41 +61,4 @@ function getPageData(html, dataReg) {
 	});
 
 	return promise;
-}
-
-function each(object, iterFunction) {
-    for (var key in object) {
-        if (object.hasOwnProperty(key)) {
-            var ret = iterFunction.call(this, key, object[key]);
-            // if (ret === ALY.util.abort)
-            //     break;
-        }
-    }
-}
-
-/**
- * [randomStr 随机串]
- * @param  {[type]} len [description]
- * @return {[type]}     [description]
- */
-function randomStr(len) {
-    len = len || 32;
-    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
-    var maxPos = chars.length;
-    var pwd = '';
-    for (var i = 0; i < len; i++) {
-        pwd += chars.charAt(Math.floor(Math.random() * maxPos));
-    }
-    return pwd;
-}
-
-function toFixed(int, n) {
-    if (typeof int !== 'number') {
-        int = parseFloat(int);
-    }
-    return parseFloat(int.toFixed(n))
-}
-
-function toInt(int) {
-    return toFixed(int, 0);
 }

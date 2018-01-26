@@ -8,7 +8,7 @@ function routes(request, response) {
 		fail('没有参数！')
 		return;
 	}
-
+	console.log(params.url);
 	switch (method) {
 		case 'eqx':
 			promise = api.copyEqx(params.url, params.toAccount);

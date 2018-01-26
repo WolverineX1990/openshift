@@ -8,7 +8,8 @@ module.exports = {
 	getViewData,
 	getPages,
 	upload,
-	getOssSts2
+	getOssSts2,
+	getOssStss
 };
 
 var http = require('http');
@@ -82,6 +83,14 @@ function getOssSts2(userToken) {
 	});
 }
 
+function getOssStss(uid, token) {
+	const url = `${serverHost}plat/v1/users/${uid}/stss?token=${token}`;
+	return request.get({
+		url: url,
+		headers: _headers
+	});
+}
+
 /**
  * [upload 上传]
  * @param  {[type]} userToken [description]
@@ -96,7 +105,6 @@ function upload(path, data, headers) {
 }
 
 function getViewData(uid, id, version) {
-	// var url = 'http://res.maka.im/user/'+ uid +'/template/'+ id +'/'+ id +'_v'+ version +'.json';
 	var url = `http://res.maka.im/user/${uid}/template/${id}/${id}_v${version}.json`;
 	return request.get({url: url});
 }
