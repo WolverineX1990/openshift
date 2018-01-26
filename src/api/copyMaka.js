@@ -1,7 +1,7 @@
 'use strict';
 
 var Maka = require('./../maka');
-var MakaUser = require('./../user/MakaUser');
+var MakaUser = require('./../user/makaUser');
 var makaService = require('./../maka/service');
 var config = require('./../config');
 var makaConfig = config.maka;
