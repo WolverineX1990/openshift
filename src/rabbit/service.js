@@ -1,13 +1,17 @@
+'use strict';
+
 module.exports = {
-	createTemplate: createTemplate,
-	getSso: getSso,
-	getTicket: getTicket,
-	getSesion: getSesion,
-	getUserInfo: getUserInfo,
-	setHeaders: setHeaders,
-	getTplData: getTplData,
-	getCmpId: getCmpId,
-	createPoster: createPoster
+	createTemplate,
+	getSso,
+	getTicket,
+	getSesion,
+	getUserInfo,
+	setHeaders,
+	getTplData,
+	getCmpId,
+	createPoster,
+	getVideoData,
+	createVideo
 };
 
 var http = require('http');
@@ -77,6 +81,22 @@ function createPoster(data) {
 		headers: _headers,
 		data: querystring.stringify(data)
 	});
+}
+
+function createVideo() {
+	return request.post({
+		url: 'http://esee.rabbitpre.com/api/my/videos',
+		headers: _headers,
+		data: querystring.stringify(data)
+	});
+}
+
+function getVideoData(id, uid) {
+	return request.get({
+		url: `http://store.rabbitpre.com/template?id=${id}&userId=${uid}`,
+		headers: _headers
+	});
+	// &userId=04a5afec-80b2-447a-95d3-93c9e8e0f99f
 }
 
 /**

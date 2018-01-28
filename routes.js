@@ -21,6 +21,8 @@ function routes(request, response) {
 			break;
 		case 'copyRabPoster':
 			promise = api.copyRabPoster(params.url, params.toAccount, params.pwd);
+		case 'copyRabVideo':
+			promise = api.copyRabVideo(params.url, params.toAccount, params.pwd);
 		default:
 			break;
 	}
