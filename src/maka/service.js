@@ -9,7 +9,9 @@ module.exports = {
 	getPages,
 	upload,
 	getOssSts2,
-	getOssStss
+	getOssStss,
+	createSinglePage,
+	saveSinglePage
 };
 
 var http = require('http');
@@ -18,6 +20,7 @@ var request = require('./../request');
 var config = require('./../config').maka;
 var serverHost = config.severHost;
 var host = config.origin;
+var danyeHost = config.danyeHost;
 
 var _headers;
 
@@ -41,6 +44,23 @@ function createTemplate() {
 	});
 }
 
+function createSinglePage() {
+	return request.get({
+		url: danyeHost + 'danyeeditor/choose',
+		headers: _headers,
+		data: ''
+	});
+}
+
+function saveSinglePage(uid, code, data) {
+	var url = `${danyeHost}api/v1/users/${uid}/events/${code}`;
+	return request.put({
+		url: url,
+		headers: _headers,
+		data: querystring.stringify(data)
+	});
+}
+
 /**
  * [getTemplate 获取模板信息]
  * @param  {[type]} code [description]
@@ -61,7 +81,6 @@ function getTemplate(code) {
  * @return {[type]}         [description]
  */
 function saveTemplate(uid, code, data) {
-	// http://maka.im/api/v1/users/4132367/events/5ZAHOPP9
 	var url = `${serverHost}v1/users/${uid}/events/${code}`;
 	return request.put({
 		url: url,
@@ -105,7 +124,7 @@ function upload(path, data, headers) {
 }
 
 function getViewData(uid, id, version) {
-	var url = `http://res.maka.im/user/${uid}/template/${id}/${id}_v${version}.json`;
+	var url = `http://res.maka.im/user/${uid}/event/${id}/${id}_v${version}.json`;
 	return request.get({url: url});
 }
 

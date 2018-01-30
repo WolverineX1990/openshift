@@ -4,15 +4,26 @@ let extend = require('./extend');
 let base64 = require('./base64');
 
 module.exports = {
-	getHtml: getHtml,
-	getPageData: getPageData,
-	crypto: crypto,
+	getHtml,
+	getPageData,
+	crypto,
+	each,
 	extend,
 	base64
 };
 
 var http = require('http');
 var URL = require('url');
+
+function each(object, iterFunction) {
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            var ret = iterFunction.call(this, key, object[key]);
+            // if (ret === ALY.util.abort)
+            //     break;
+        }
+    }
+}
 
 function getHtml(targetUrl) {
 	var promise = new Promise(function(resolve, reject){

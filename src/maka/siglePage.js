@@ -9,7 +9,7 @@ var fileHost = 'http://res3.maka.im/';
 /**
  * MAKA场景
  */
-class Maka {
+class SiglePage {
 	constructor(data) {
 		if(typeof data == 'string') {
 			this.dataUrl = data;
@@ -35,34 +35,27 @@ class Maka {
 		return this._user;
 	}
 
-	getJson() {
-		return service.getPages(this.data.json_url).then(res=>{
-			this.jsonData = JSON.parse(res);
-			this.pages = this.jsonData.data.pdata.json;
-			return this.jsonData;
-		});
-	}
-
 	loadData() {
 		return utils.getHtml(this.dataUrl).then(res=>this.loadSuc(res));
 	}
 
 	loadSuc(html) {
-		var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
+		var dataReg = /versionData[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
         return utils.getPageData(html, dataReg).then(res => {
-        	res = res.split('</script>')[0];
+        	res = res.split('window.loadJson')[0];
         	this.data = JSON.parse(res.trim());
-        	return this.getJson();
+        	return this.loadContent();
         });
 	}
 
 	loadContent(){
 		return service.getViewData(this.data.uid, this.data.id, this.data.p_version).then(res=>{
 			var data = JSON.parse(res).data;
-			this.pages = [data.content];
-			this.data.music = data.music;
-			this.data.height = data.canvasSize.height;
-			this.data.background = data.background;
+			this.data = data;
+			// this.pages = [data.content];
+			// this.data.music = data.music;
+			// this.data.height = data.canvasSize.height;
+			// this.data.background = data.background;
 			return this;
 		});
 	}
@@ -81,13 +74,12 @@ class Maka {
 			var header = getOssHeader(this.ossSts2, binary, resource);
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-			return service.upload(url, binary, header).then(res=> service.saveTemplate(this.data.uid, code, {
-				version: 2,
+			const size = this.jsonData.data.data.canvasSize;
+			return service.upload(url, binary, header).then(res=> service.saveSinglePage(this.data.uid, code, {
 				p_version: 2,
-				e_version: 3,
-				thumb: this.data.thumb,
-				title: this.data.title,
-				content: this.data.content
+				editor_version: 3,
+				page_width: size.width,
+				page_height: size.height
 			}));
 
 		} else {
@@ -99,14 +91,16 @@ class Maka {
 	}
 
 	copy(json) {
-		let pdata = json.data.pdata;
 		this.jsonData = {
-			code: 200,
 			data: {
-				pdata: {
-					json: pdata.json,
-					menu: pdata.menu,
-					music: pdata.music,
+				data: {
+					background: json.background,
+					canvasSize: json.canvasSize,
+					content: json.content,
+					editorVersion: 1,
+					music: json.music,
+					floatAD: json.floatAD,
+					lastModified: Date.now(),
 					version: 2
 				}
 			}
@@ -171,4 +165,4 @@ function getOssHeader(token, data, resource) {
 	return header;
 }
 
-module.exports = Maka;
+module.exports = SiglePage;

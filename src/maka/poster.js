@@ -9,7 +9,7 @@ var fileHost = 'http://res3.maka.im/';
 /**
  * MAKA场景
  */
-class Maka {
+class Poster {
 	constructor(data) {
 		if(typeof data == 'string') {
 			this.dataUrl = data;
@@ -54,6 +54,15 @@ class Maka {
         	this.data = JSON.parse(res.trim());
         	return this.getJson();
         });
+	}
+
+	loadViewPages(){
+		return service.getViewData(this.data.uid, this.data.id, this.data.p_version).then(res=>{
+			var data = JSON.parse(res).data.pdata;
+			this.pages = data.json;
+			this.data.music = data.music;
+			return this;
+		});
 	}
 
 	loadContent(){
@@ -171,4 +180,4 @@ function getOssHeader(token, data, resource) {
 	return header;
 }
 
-module.exports = Maka;
+module.exports = Poster;
