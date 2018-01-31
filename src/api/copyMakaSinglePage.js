@@ -28,7 +28,7 @@ function copyMakaSinglePage(target, toAccount, pwd) {
 					siglePage.user = user;
 					return siglePage;
 				})
-				.then(maka=> maka.copy(oriMaka.data));
+				.then(maka=> maka.copy(oriMaka.data, oriMaka.jsonData));
 	}
 }
 

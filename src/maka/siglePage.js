@@ -51,11 +51,7 @@ class SiglePage {
 	loadContent(){
 		return service.getViewData(this.data.uid, this.data.id, this.data.p_version).then(res=>{
 			var data = JSON.parse(res).data;
-			this.data = data;
-			// this.pages = [data.content];
-			// this.data.music = data.music;
-			// this.data.height = data.canvasSize.height;
-			// this.data.background = data.background;
+			this.jsonData = data;
 			return this;
 		});
 	}
@@ -74,13 +70,19 @@ class SiglePage {
 			var header = getOssHeader(this.ossSts2, binary, resource);
 			var param = URL.parse(this.ossSts2.hostId);
 			var url = param.protocol + '//' + this.ossSts2.bucket + '.' + param.host + path;
-			const size = this.jsonData.data.data.canvasSize;
-			return service.upload(url, binary, header).then(res=> service.saveSinglePage(this.data.uid, code, {
-				p_version: 2,
-				editor_version: 3,
-				page_width: size.width,
-				page_height: size.height
-			}));
+			const size = this.jsonData.data.canvasSize;
+			return service.upload(url, binary, header)
+					.then(res=> service.setTag(this.data.uid, code, {
+						type: 'danye',
+						ids: 1
+					}))
+					.then(res=> service.saveSinglePage(this.data.uid, code, {
+						version: 2,
+						p_version: 2,
+						editor_version: 3,
+						page_width: size.width,
+						page_height: size.height
+					}));
 
 		} else {
 			return service.getOssStss(this.user.info.uid, this.user.info.token).then(res=>{
@@ -90,22 +92,25 @@ class SiglePage {
 		}
 	}
 
-	copy(json) {
+	copy(meta, json) {
 		this.jsonData = {
 			data: {
-				data: {
-					background: json.background,
-					canvasSize: json.canvasSize,
-					content: json.content,
-					editorVersion: 1,
-					music: json.music,
-					floatAD: json.floatAD,
-					lastModified: Date.now(),
-					version: 2
-				}
+				background: json.background,
+				canvasSize: json.canvasSize,
+				content: json.content,
+				editorVersion: 1,
+				music: json.music,
+				floatAD: json.floatAD,
+				lastModified: Date.now(),
+				version: 2
 			}
 		};
-		return this.save();
+		return this.save()
+					.then(res=>this.setCover(meta.thumb));
+	}
+
+	setCover(url) {
+		return service.updateCover(this.data.id, {thumb: url});
 	}
 
 	static getDef(id, uid, meta) {

@@ -11,7 +11,9 @@ module.exports = {
 	getOssSts2,
 	getOssStss,
 	createSinglePage,
-	saveSinglePage
+	saveSinglePage,
+	setTag,
+	updateCover
 };
 
 var http = require('http');
@@ -54,6 +56,24 @@ function createSinglePage() {
 
 function saveSinglePage(uid, code, data) {
 	var url = `${danyeHost}api/v1/users/${uid}/events/${code}`;
+	return request.put({
+		url: url,
+		headers: _headers,
+		data: querystring.stringify(data)
+	});
+}
+
+function setTag(uid, code, data) {
+	var url = `${danyeHost}api/v1/users/${uid}/events/${code}/tags`;
+	return request.put({
+		url: url,
+		headers: _headers,
+		data: querystring.stringify(data)
+	});
+}
+
+function updateCover(code, data) {
+	var url = `${danyeHost}api/lite/event/${code}`;
 	return request.put({
 		url: url,
 		headers: _headers,
