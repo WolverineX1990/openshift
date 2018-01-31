@@ -14,7 +14,8 @@ module.exports = {
 	saveSinglePage,
 	setTag,
 	updateCover,
-	createVideo
+	createVideo,
+	createPoster
 };
 
 var http = require('http');
@@ -42,6 +43,14 @@ function setHeaders(headers) {
 function createTemplate() {
 	return request.get({
 		url: host + '/h5editor/choose?source=maka',
+		headers: _headers,
+		data: ''
+	});
+}
+
+function createPoster() {
+	return request.get({
+		url: host + '/postereditor/choose',
 		headers: _headers,
 		data: ''
 	});

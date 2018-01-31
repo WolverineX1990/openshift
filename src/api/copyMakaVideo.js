@@ -5,7 +5,6 @@ var MakaUser = require('./../user/makaUser');
 var makaService = require('./../maka/service');
 var config = require('./../config');
 var makaConfig = config.maka;
-const url = require('url');
 
 function copyMakaVideo(target, toAccount, pwd) {
 	var user = new MakaUser(toAccount, pwd);
