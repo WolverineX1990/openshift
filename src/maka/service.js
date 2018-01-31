@@ -13,7 +13,8 @@ module.exports = {
 	createSinglePage,
 	saveSinglePage,
 	setTag,
-	updateCover
+	updateCover,
+	createVideo
 };
 
 var http = require('http');
@@ -41,6 +42,14 @@ function setHeaders(headers) {
 function createTemplate() {
 	return request.get({
 		url: host + '/h5editor/choose?source=maka',
+		headers: _headers,
+		data: ''
+	});
+}
+
+function createVideo() {
+	return request.get({
+		url: host + '/videoeditor/choose',
 		headers: _headers,
 		data: ''
 	});

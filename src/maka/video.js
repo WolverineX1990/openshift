@@ -9,7 +9,7 @@ var fileHost = 'http://res3.maka.im/';
 /**
  * MAKA场景
  */
-class Maka {
+class Video {
 	constructor(data) {
 		if(typeof data == 'string') {
 			this.dataUrl = data;
@@ -38,7 +38,6 @@ class Maka {
 	getJson() {
 		return service.getPages(this.data.json_url).then(res=>{
 			this.jsonData = JSON.parse(res);
-			this.pages = this.jsonData.data.pdata.json;
 			return this.jsonData;
 		});
 	}
@@ -48,9 +47,9 @@ class Maka {
 	}
 
 	loadSuc(html) {
-		var dataReg = /window.projectVersion[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
+		var dataReg = /window.TEMPLATE_INFO[\s|\w]*=[\s|\w]*{([\s|\w|\W]+)/;
         return utils.getPageData(html, dataReg).then(res => {
-        	res = res.split('</script>')[0];
+        	res = res.split('window')[0];
         	this.data = JSON.parse(res.trim());
         	return this.getJson();
         });
@@ -110,6 +109,8 @@ class Maka {
 			'title': meta.title,
 			'content': meta.content,
 			'thumb': meta.thumb,
+			'duration': meta.duration,
+			'durationFormat': meta.durationFormat,
 			'version': '2',
 			'e_version': '3',
 			'template_id': '',
@@ -160,4 +161,4 @@ function getOssHeader(token, data, resource) {
 	return header;
 }
 
-module.exports = Maka;
+module.exports = Video;
