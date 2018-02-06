@@ -19,19 +19,19 @@ function routes(request, response) {
 		case 'rabbit':
 			promise = api.copyRabbit(params.url, params.toAccount, params.pwd);
 			break;
-		case 'copyRabPoster':
+		case 'rabPoster':
 			promise = api.copyRabPoster(params.url, params.toAccount, params.pwd);
 			break;
-		case 'copyRabVideo':
+		case 'rabVideo':
 			promise = api.copyRabVideo(params.url, params.toAccount, params.pwd);
 			break;
-		case 'copyMakaVideo':
+		case 'makaVideo':
 			promise = api.copyMakaVideo(params.url, params.toAccount, params.pwd);
 			break;
-		case 'copyMakaPoster':
+		case 'makaPoster':
 			promise = api.copyMakaPoster(params.url, params.toAccount, params.pwd);
 			break;
-		case 'copyMakaSinglePage':
+		case 'makaSinglePage':
 			promise = api.copyMakaSinglePage(params.url, params.toAccount, params.pwd);
 		default:
 			break;

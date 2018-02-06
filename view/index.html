@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="keywords" content="h5,易企秀,MAKA,兔展,视频,图片,海报,一页,单页">
+    <meta name="description" content="一键复制，营销工具，简单快速">
+	<title>h5工具</title>
+	<link rel="stylesheet" type="text/css" href="//res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css">
+</head>
+<body>
+	<div class="weui_cells weui_cells_form">
+    	<div class="weui-cell weui-cell_select">
+            <div class="weui-cell__bd">
+                <select class="weui-select" id="type" name="select1">
+                    <option selected="" value="1">易企秀</option>
+                    <option value="2">兔展</option>
+                    <option value="3">兔展一页</option>
+                    <option value="4">MAKA</option>
+                    <option value="5">MAKA单页</option>
+                    <option value="6">MAKA视频</option>
+                    <option value="7">MAKA海报</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">模板地址</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="url" type="text" placeholder="请输入模板地址">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="account" type="text" placeholder="请输入账号">
+            </div>
+        </div>
+        <div class="weui-cell" id="pwd-con">
+            <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="pwd" type="password" placeholder="请输入密码">
+            </div>
+        </div>
+    </div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">确定</a>
+    </div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <script src="//cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+</body>
+<!-- https://res.wx.qq.com/open/js/jweixin-1.3.0.js -->
+</html>
