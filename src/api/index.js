@@ -6,5 +6,6 @@ module.exports = {
 	copyRabVideo: require('./copyRabVideo'),
 	copyMakaVideo: require('./copyMakaVideo'),
 	copyMakaPoster: require('./copyMakaPoster'),
-	copyMakaSinglePage: require('./copyMakaSinglePage')
+	copyMakaSinglePage: require('./copyMakaSinglePage'),
+	getRabMoney: require('./getRabMoney')
 }

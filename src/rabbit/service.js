@@ -11,7 +11,8 @@ module.exports = {
 	getCmpId,
 	createPoster,
 	getVideoData,
-	createVideo
+	createVideo,
+	getUserMoney
 };
 
 var http = require('http');
@@ -68,6 +69,14 @@ function createTemplate(data) {
 		url: serverHost + 'app',
 		headers: _headers,
 		data: querystring.stringify(data)
+	});
+}
+
+function getUserMoney() {
+	var url = serverHost + 'assets/assets';
+	return request.get({
+		url: url,
+		headers: _headers
 	});
 }
 
