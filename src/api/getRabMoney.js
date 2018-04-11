@@ -6,7 +6,7 @@ const RabbitUser = require('./../user/rabbitUser');
 const rabbitSevice = require('./../rabbit/service');
 
 function getRabMoney() {
-    const user = new RabbitUser(rabConfig.userName, rabConfig.userPwd);
+    const user = new RabbitUser( 18519203764, '19900325x');
     return user.login()
             .then(res=>{
                 rabbitSevice.setHeaders({

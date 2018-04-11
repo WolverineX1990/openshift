@@ -1,5 +1,4 @@
 var url = require("url");
-var http = require('http');
 var fs = require('fs');
 var routes = require('./routes');
 var manageReq = require('./manageReq');
@@ -42,9 +41,8 @@ function readFileAndResponse(pathname,response){
 
 
 // const app = createServer();
-const app = null;
 console.log('server start');
 
-email();
+var app = email();
 
 module.exports = app;
