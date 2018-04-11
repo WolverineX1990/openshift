@@ -30,4 +30,6 @@ app.post('/alpha/', function(req, res){
     }
 });
 
-app.listen(process.env.PORT || 3000);
+var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+
+app.listen(port || 3000);
